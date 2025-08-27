@@ -11,6 +11,11 @@ input {
   display: block;
   margin-bottom: 20px;
 }
+input:focus {
+  border-color: tomato;
+  outline: none;
+  box-shadow: 0 0 6px tomato;
+}
 button {
   border: 1px solid gray;
   background: whitesmoke;
