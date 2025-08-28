@@ -1,48 +1,61 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import './App.css';
 
 function App() {
   const inputRef = useRef(null);
   const resultRef = useRef(null);
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState(null);
+  const getValue = () => Number(inputRef.current.value);
 
   function plus(e) {
     e.preventDefault();
-    // const inputVal = inputRef.current.value;
-    // const newResult = result + Number(inputVal);
-    // setResult(newResult);
-    setResult((result) => result + Number(inputRef.current.value));
+    const value = getValue();
+    setResult((result) => (result === null ? value : result + value));
+    inputRef.current.value = null;
+    inputRef.current.focus();
   }
 
   function minus(e) {
     e.preventDefault();
-    const inputVal = inputRef.current.value;
-    const newResult = result - Number(inputVal);
-    setResult(newResult);
+    const value = getValue();
+    setResult((result) => (result === null ? value : result - value));
+    inputRef.current.value = null;
+    inputRef.current.focus();
   }
 
   function times(e) {
     e.preventDefault();
-    const inputVal = inputRef.current.value;
-    const newResult = result * Number(inputVal);
-    setResult(newResult);
+    const value = getValue();
+    setResult((result) => (result === null ? value : result * value));
+    inputRef.current.value = null;
+    inputRef.current.focus();
   }
 
   function divide(e) {
     e.preventDefault();
-    const inputVal = inputRef.current.value;
-    const newResult = result / Number(inputVal);
-    setResult(newResult);
+    const value = getValue();
+
+    if (value === 0) {
+      alert('Error: Division by zero is not allowed!');
+      inputRef.current.value = '';
+      inputRef.current.focus();
+      return;
+    }
+
+    setResult((result) => (result === null ? value : result / value));
+    inputRef.current.value = null;
+    inputRef.current.focus();
   }
 
   function resetInput(e) {
     e.preventDefault();
-    inputRef.current.value = 0;
+    inputRef.current.value = null;
   }
 
   function resetResult(e) {
     e.preventDefault();
     setResult(0);
+    inputRef.current.value = null;
   }
 
   return (
@@ -51,7 +64,7 @@ function App() {
         <h1>Simplest Working Calculator</h1>
       </div>
       <form>
-        <p ref={resultRef}>{result}</p>
+        <h2 ref={resultRef}>{result === null ? '0' : result}</h2>
         <input
           pattern='[0-9]'
           ref={inputRef}
@@ -71,64 +84,51 @@ function App() {
 
 export default App;
 
-// import { useState, useRef } from 'react';
+// import React, { useState, useRef } from 'react';
 // import './App.css';
 
 // function App() {
 //   const inputRef = useRef(null);
 //   const resultRef = useRef(null);
-//   const [result, setResult] = useState(null);
-//   const getValue = () => Number(inputRef.current.value);
+//   const [result, setResult] = useState(0);
 
 //   function plus(e) {
 //     e.preventDefault();
-//     const value = getValue();
-//     setResult((result) => (result === null ? value : result + value));
-//     inputRef.current.value = null;
-//     inputRef.current.focus();
+//     // const inputVal = inputRef.current.value;
+//     // const newResult = result + Number(inputVal);
+//     // setResult(newResult);
+//     setResult((result) => result + Number(inputRef.current.value));
 //   }
 
 //   function minus(e) {
 //     e.preventDefault();
-//     const value = getValue();
-//     setResult((result) => (result === null ? value : result - value));
-//     inputRef.current.value = null;
-//     inputRef.current.focus();
+//     const inputVal = inputRef.current.value;
+//     const newResult = result - Number(inputVal);
+//     setResult(newResult);
 //   }
 
 //   function times(e) {
 //     e.preventDefault();
-//     const value = getValue();
-//     setResult((result) => (result === null ? value : result * value));
-//     inputRef.current.value = null;
-//     inputRef.current.focus();
+//     const inputVal = inputRef.current.value;
+//     const newResult = result * Number(inputVal);
+//     setResult(newResult);
 //   }
 
 //   function divide(e) {
 //     e.preventDefault();
-//     const value = getValue();
-
-//     if (value === 0) {
-//       alert('Error: Division by zero is not allowed!');
-//       inputRef.current.value = '';
-//       inputRef.current.focus();
-//       return;
-//     }
-
-//     setResult((result) => (result === null ? value : result / value));
-//     inputRef.current.value = null;
-//     inputRef.current.focus();
+//     const inputVal = inputRef.current.value;
+//     const newResult = result / Number(inputVal);
+//     setResult(newResult);
 //   }
 
 //   function resetInput(e) {
 //     e.preventDefault();
-//     inputRef.current.value = null;
+//     inputRef.current.value = 0;
 //   }
 
 //   function resetResult(e) {
 //     e.preventDefault();
 //     setResult(0);
-//     inputRef.current.value = null;
 //   }
 
 //   return (
@@ -137,7 +137,7 @@ export default App;
 //         <h1>Simplest Working Calculator</h1>
 //       </div>
 //       <form>
-//         <h2 ref={resultRef}>{result === null ? '0' : result}</h2>
+//         <p ref={resultRef}>{result}</p>
 //         <input
 //           pattern='[0-9]'
 //           ref={inputRef}
